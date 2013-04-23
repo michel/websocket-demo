@@ -35,9 +35,14 @@ class Chat.Controller
   bindEvents: =>
     @dispatcher.bind 'new_message', @newMessage
     @dispatcher.bind 'user_list', @updateUserList
+    @dispatcher.bind 'user_move', @userMove
     $('input#user_name').on 'keyup', @updateUserInfo
     $('#send').on 'click', @sendMessage
     $('#message').keypress (e) -> $('#send').click() if e.keyCode == 13
+    if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) 
+      window.ondeviceorientation = (event) ->
+        @dispatcher.trigger 'device_move', { user_name: @user.user_name, beta: event.beta, gamma: event.gamma }
+
 
   newMessage: (message) =>
     @messageQueue.push message
@@ -49,6 +54,9 @@ class Chat.Controller
     message = $('#message').val()
     @dispatcher.trigger 'new_message', {user_name: @user.user_name, msg_body: message}
     $('#message').val('')
+
+  userMove: (event) =>
+    console.log event
 
   updateUserList: (userList) =>
     $('#user-list').html @userListTemplate(userList)

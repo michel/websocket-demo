@@ -49,5 +49,13 @@ class ChatController < WebsocketRails::BaseController
     users = connection_store.collect_all(:user)
     broadcast_message :user_list, users
   end
+
+  def device_move
+    broadcast_message :user_move, { 
+     user_name: connection_store[:user][:user_name],
+     beta: message[:beta],
+     gamma: message[:gamma]
+    }
+  end
   
 end
