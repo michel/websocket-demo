@@ -1,0 +1,6 @@
+#chat.well{"data-uri" => "#{request.host}:#{request.port}/websocket"}
+.form-inline.well
+  %fieldset
+    %input#user_name.input-medium{:type => "text"}/
+    %input#message.input-xlarge{:type => "text"}/
+    %button#send.btn.btn-primary Send
